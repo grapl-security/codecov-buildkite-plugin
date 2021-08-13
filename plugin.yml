@@ -1,0 +1,10 @@
+name: Codecov
+description: Uploads coverage reports to codecov.io
+author: https://github.com/grapl-security
+requirements: ["codecov"] # Until we make a container
+configuration:
+  properties: # JSON schema describing config values
+    file: #BUILDKITE_PLUGIN_<PLUGIN_NAME>_<CONFIGURATION_PROPERTY>
+      description: The file(s) to upload
+      type: string
+  additionalProperties: false

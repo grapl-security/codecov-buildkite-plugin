@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "${BUILDKITE_COMMAND_EXIT_STATUS}" -ne 0 ]; then
+    echo "--- :codecov: Skipping upload because job failed"
+    exit 0
+fi
+
+# This is Grapl's default coverage location and format
+if [ -z "${BUILDKITE_PLUGIN_CODECOV_FILE:-}" ]; then
+    BUILDKITE_PLUGIN_CODECOV_FILE="dist/coverage/**/*.xml"
+fi
+
+echo "--- :codecov: Uploading Coverage Reports"
+codecov --verbose --file="${BUILDKITE_PLUGIN_CODECOV_FILE}"
