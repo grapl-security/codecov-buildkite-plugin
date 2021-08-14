@@ -1,0 +1,12 @@
+steps:
+  - label: ":lint-roller::bash: Lint Code"
+    command:
+      - make lint-bash
+
+  - label: ":buildkite: Lint Plugin"
+    command:
+      - make lint-plugin
+
+  - label: ":buildkite: Test Plugin"
+    command:
+      - make test-plugin
