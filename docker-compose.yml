@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  tests:
+    image: buildkite/plugin-tester
+    volumes:
+      - ".:/plugin:ro"
+
+  lint:
+    image: buildkite/plugin-linter
+    command: ['--id', 'grapl-security/codecov']
+    volumes:
+      - ".:/plugin:ro"
