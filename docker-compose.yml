@@ -1,13 +1,52 @@
 version: "3.8"
 
-services:
-  tests:
-    image: buildkite/plugin-tester
-    volumes:
-      - ".:/plugin:ro"
+x-common-variables:
+  read-only-workdir: &read-only-workdir
+    type: bind
+    source: .
+    target: /workdir
+    read_only: true
+  read-write-workdir: &read-write-workdir
+    type: bind
+    source: .
+    target: /workdir
+    read_only: false
+  read-only-plugin: &read-only-plugin
+    # Buildkite containers assume you mount into /plugin
+    type: bind
+    source: .
+    target: /plugin
+    read_only: true
 
-  lint:
-    image: buildkite/plugin-linter
-    command: ['--id', 'grapl-security/codecov']
+services:
+  plugin-tester:
+    image: buildkite/plugin-tester:latest # the only available tag
     volumes:
-      - ".:/plugin:ro"
+      - *read-only-plugin
+
+  plugin-linter:
+    image: buildkite/plugin-linter:latest # the only available tag
+    command: ["--id", "grapl-security/codecov"]
+    volumes:
+      - *read-only-plugin
+
+  hcl-linter:
+    image: hashicorp/packer:1.7.2
+    command: ["fmt", "-check", "-diff", "docker-bake.hcl"]
+    working_dir: /workdir
+    volumes:
+      - *read-only-workdir
+
+  hcl-formatter:
+    image: hashicorp/packer:1.7.2
+    command: ["fmt", "docker-bake.hcl"]
+    working_dir: /workdir
+    volumes:
+      - *read-write-workdir
+
+  hadolint:
+    image: hadolint/hadolint:2.6.0-debian
+    command: [ "hadolint", "Dockerfile" ]
+    working_dir: /workdir
+    volumes:
+      - *read-only-workdir
