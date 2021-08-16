@@ -1,3 +1,6 @@
+env:
+  PANTS_CONFIG_FILES: "['pants.toml', 'pants.ci.toml']"
+
 steps:
   - label: ":lint-roller::bash: Lint Code"
     command:
