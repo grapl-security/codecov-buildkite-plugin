@@ -1,10 +1,17 @@
+---
 name: Codecov
 description: Uploads coverage reports to codecov.io
 author: https://github.com/grapl-security
-requirements: ["codecov"] # Until we make a container
+requirements: ["docker"]
 configuration:
-  properties: # JSON schema describing config values
-    file: #BUILDKITE_PLUGIN_<PLUGIN_NAME>_<CONFIGURATION_PROPERTY>
-      description: The file(s) to upload
+  properties:
+    file:
+      description: The file(s) to upload; defaults to `dist/coverage/**/*.xml`
+      type: string
+    image:
+      description: The `codecov` image to use; defaults to `docker.cloudsmith.io/grapl/releases/codecov`
+      type: string
+    tag:
+      description: The `codecov` image tag to use; defaults to `latest`
       type: string
   additionalProperties: false

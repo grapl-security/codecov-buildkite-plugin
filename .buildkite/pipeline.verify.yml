@@ -1,12 +1,27 @@
+env:
+  PANTS_CONFIG_FILES: "['pants.toml', 'pants.ci.toml']"
+
 steps:
-  - label: ":lint-roller::bash: Lint Code"
+  - label: ":lint-roller::bash: Lint Bash"
     command:
       - make lint-bash
 
-  - label: ":buildkite: Lint Plugin"
+  - label: ":lint-roller::docker: Lint Dockerfile"
+    command:
+      - make lint-docker
+
+  - label: ":lint-roller::buildkite: Lint Plugin"
     command:
       - make lint-plugin
 
-  - label: ":buildkite: Test Plugin"
+  - label: ":lint-roller::buildkite: Test Plugin"
     command:
       - make test-plugin
+
+  - label: ":lint-roller: Lint HCL"
+    command:
+      - make lint-hcl
+
+  - label: ":docker: Build Image"
+    command:
+      - make image

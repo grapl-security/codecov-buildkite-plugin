@@ -1,0 +1,15 @@
+---
+steps:
+  - label: ":docker::cloudsmith: Build and Upload Docker Containers"
+    command:
+      - make image-push
+    plugins:
+      - seek-oss/aws-sm#v2.3.1:
+          env:
+            CLOUDSMITH_API_KEY: "cloudsmith-token"
+      - docker-login#v2.0.1:
+          username: grapl-cicd
+          password-env: CLOUDSMITH_API_KEY
+          server: docker.cloudsmith.io
+    agents:
+      queue: "docker"

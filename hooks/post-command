@@ -8,9 +8,29 @@ if [ "${BUILDKITE_COMMAND_EXIT_STATUS}" -ne 0 ]; then
 fi
 
 # This is Grapl's default coverage location and format
-if [ -z "${BUILDKITE_PLUGIN_CODECOV_FILE:-}" ]; then
-    BUILDKITE_PLUGIN_CODECOV_FILE="dist/coverage/**/*.xml"
-fi
+readonly default_file="dist/coverage/**/*.xml"
+readonly default_image="docker.cloudsmith.io/grapl/releases/codecov"
+readonly default_tag="latest"
+
+readonly image="${BUILDKITE_PLUGIN_CODECOV_IMAGE:-${default_image}}:${BUILDKITE_PLUGIN_CODECOV_TAG:-${default_tag}}"
+readonly file_glob="${BUILDKITE_PLUGIN_CODECOV_FILE:-${default_file}}"
 
 echo "--- :codecov: Uploading Coverage Reports"
-codecov --verbose --file="${BUILDKITE_PLUGIN_CODECOV_FILE}"
+docker run \
+    --init \
+    --interactive \
+    --tty \
+    --rm \
+    --label="com.buildkite.job-id=${BUILDKITE_JOB_ID}" \
+    --mount=type=bind,source="$(pwd)",destination=/workdir,readonly \
+    --workdir=/workdir \
+    --env=CODECOV_TOKEN \
+    --env=BUILDKITE \
+    --env=BUILDKITE_BRANCH \
+    --env=BUILDKITE_BUILD_NUMBER \
+    --env=BUILDKITE_BUILD_URL \
+    --env=BUILDKITE_COMMIT \
+    --env=BUILDKITE_JOB_ID \
+    --env=BUILDKITE_PROJECT_SLUG \
+    -- \
+    "${image}" --verbose --file="${file_glob}"

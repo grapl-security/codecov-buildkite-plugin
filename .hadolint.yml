@@ -1,0 +1,6 @@
+ignored:
+  # Add --no-install-recommends to apt-get calls.
+  #
+  # Ignoring this allows us to leave out a bunch of accessory
+  # GPG-related tools.
+  - DL3015
