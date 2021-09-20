@@ -6,7 +6,7 @@ ARG CODECOV_VERSION
 
 RUN apt-get update && \
     apt-get install --yes \
-    curl=7.74.0-1ubuntu2.1 \
+    curl=7.74.0-1ubuntu2.3 \
     gpg=2.2.20-1ubuntu3
 
 WORKDIR /workdir
