@@ -8,7 +8,7 @@ variable "CODECOV_VERSION" {
   #
   # Alternatively, supply a value for `$CODECOV_VERSION` in the
   # environment when calling `docker buildx bake`.
-  default = "v0.1.0_7865"
+  default = "v0.1.8"
 }
 
 group "default" {
