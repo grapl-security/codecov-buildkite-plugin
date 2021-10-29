@@ -1,10 +1,16 @@
 env:
   PANTS_CONFIG_FILES: "['pants.toml', 'pants.ci.toml']"
+  BUILDKITE_PLUGIN_VAULT_ENV_SECRET_PREFIX: "secret/data/buildkite/env"
 
 steps:
   - label: ":lint-roller::bash: Lint Bash"
     command:
       - make lint-bash
+    plugins:
+      - grapl-security/vault-login#v0.1.0
+      - grapl-security/vault-env#v0.1.0:
+          secrets:
+            - codecov-buildkite-plugin/TOOLCHAIN_AUTH_TOKEN
 
   - label: ":lint-roller::docker: Lint Dockerfile"
     command:
