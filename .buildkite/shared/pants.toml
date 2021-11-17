@@ -6,6 +6,10 @@ backend_packages = [
     "pants.backend.shell.lint.shfmt"
 ]
 
+pants_ignore = [
+    "!.buildkite/"
+]
+
 plugins = [
   "toolchain.pants.plugin==0.14.0"
 ]
@@ -16,7 +20,7 @@ remote_store_address = "grpcs://cache.toolchain.com:443"
 remote_auth_plugin = "toolchain.pants.auth.plugin:toolchain_auth_plugin"
 
 [toolchain-setup]
-repo = "codecov-buildkite-plugin"
+repo = "buildkite-common"
 
 [buildsense]
 enable = true
@@ -25,7 +29,13 @@ enable = true
 [anonymous-telemetry]
 enabled = true
 # Randomly generated with `uuidgen --random`
-repo_id = "9bbbfca9-d14f-4513-b64c-fab981fbdb38"
+repo_id = "a848c0d7-1ac6-4098-92f8-c33db5cb4fc0"
+
+# [source]
+# root_patterns = [
+#     "/3rdparty",
+#     "/pulumi"
+# ]
 
 [shfmt]
 # Indent with 4 spaces
