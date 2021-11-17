@@ -6,10 +6,6 @@ backend_packages = [
     "pants.backend.shell.lint.shfmt"
 ]
 
-pants_ignore = [
-    "!.buildkite/"
-]
-
 plugins = [
   "toolchain.pants.plugin==0.14.0"
 ]
