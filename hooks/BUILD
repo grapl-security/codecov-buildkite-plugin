@@ -1,5 +1,1 @@
-shell_library(
-    sources=[
-        "post-command"
-    ]
-)
+shell_sources(sources=["post-command"])
