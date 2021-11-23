@@ -61,9 +61,3 @@ image-push:
 
 .PHONY: all
 all: format lint test image
-
-########################################################################
-
-.PHONY: update-buildkite-shared
-update-buildkite-shared: ## Pull in changes from grapl-security/buildkite-common
-	git subtree pull --prefix .buildkite/shared git@github.com:grapl-security/buildkite-common.git main --squash
