@@ -6,8 +6,9 @@ env:
 steps:
   - label: ":thinking_face: Build Codecov Container?"
     plugins:
+      - grapl-security/grapl-release#v0.1.0
       - chronotc/monorepo-diff#v2.0.4:
-          diff: .buildkite/shared/scripts/diff.sh
+          diff: grapl_diff.sh
           log_level: "debug"
           watch:
             - path:
@@ -22,4 +23,6 @@ steps:
 
   - label: ":writing_hand: Record successful build"
     command:
-      - .buildkite/shared/steps/record_successful_pipeline_run.sh
+      - record_successful_pipeline_run.sh
+    plugins:
+      - grapl-security/grapl-release#v0.1.0
