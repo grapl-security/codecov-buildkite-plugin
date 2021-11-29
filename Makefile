@@ -4,14 +4,14 @@ COMPOSE_USER=$(shell id -u):$(shell id -g)
 ########################################################################
 
 .PHONY: lint
-lint: lint-plugin lint-bash lint-docker lint-hcl
+lint: lint-plugin lint-shell lint-docker lint-hcl
 
 .PHONY: lint-plugin
 lint-plugin:
 	docker-compose run --rm plugin-linter
 
-.PHONY: lint-bash
-lint-bash:
+.PHONY: lint-shell
+lint-shell:
 	./pants lint ::
 
 .PHONY: lint-docker
@@ -26,14 +26,14 @@ lint-hcl:
 ########################################################################
 
 .PHONY: format
-format: format-hcl format-bash
+format: format-hcl format-shell
 
 .PHONY: format-hcl
 format-hcl:
 	docker-compose run --rm --user=${COMPOSE_USER} hcl-formatter
 
-.PHONY: format-bash
-format-bash:
+.PHONY: format-shell
+format-shell:
 	./pants fmt ::
 
 # Testing
