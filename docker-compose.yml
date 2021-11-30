@@ -43,10 +43,3 @@ services:
     working_dir: /workdir
     volumes:
       - *read-write-workdir
-
-  hadolint:
-    image: hadolint/hadolint:2.6.0-debian
-    command: [ "hadolint", "Dockerfile" ]
-    working_dir: /workdir
-    volumes:
-      - *read-only-workdir
