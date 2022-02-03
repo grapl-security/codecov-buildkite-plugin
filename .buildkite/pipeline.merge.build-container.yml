@@ -31,7 +31,7 @@ steps:
       - grapl-security/vault-env#v0.1.0:
           secrets:
             - CLOUDSMITH_API_KEY
-      - grapl-security/cloudsmith#v0.1.0:
+      - grapl-security/cloudsmith#v0.1.4:
           promote:
             org: grapl
             from: raw
