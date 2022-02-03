@@ -39,4 +39,4 @@ steps:
             packages:
               codecov: latest
     agents:
-      queue: "artifact-uploaders"
+      queue: "docker"
