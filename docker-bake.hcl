@@ -3,12 +3,15 @@ variable "CODECOV_VERSION" {
   # https://uploader.codecov.io. This will also be incorporated into
   # the image tag.
   #
+  # See https://uploader.codecov.io/linux/latest for the current
+  # version.
+  #
   # Update this frequently, as the Uploader is under active
   # development.
   #
   # Alternatively, supply a value for `$CODECOV_VERSION` in the
   # environment when calling `docker buildx bake`.
-  default = "v0.1.8"
+  default = "v0.1.15"
 }
 
 group "default" {
