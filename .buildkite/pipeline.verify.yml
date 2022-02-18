@@ -7,7 +7,7 @@ steps:
     command:
       - make lint-shell
     plugins:
-      - grapl-security/vault-login#v0.1.0
+      - grapl-security/vault-login#v0.1.2
       - grapl-security/vault-env#v0.1.0:
           secrets:
             - codecov-buildkite-plugin/TOOLCHAIN_AUTH_TOKEN
