@@ -33,4 +33,4 @@ docker run \
     --env=BUILDKITE_JOB_ID \
     --env=BUILDKITE_PROJECT_SLUG \
     -- \
-    "${image}" --verbose --file="${file_glob}"
+    "${image}" --verbose --file="${file_glob}" --rootDir="/workdir"
