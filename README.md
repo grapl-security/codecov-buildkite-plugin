@@ -62,6 +62,18 @@ steps:
 This can also be set this globally using the
 `BUILDKITE_PLUGIN_CODECOV_TAG` environment variable.
 
+By default, this plugin will fail a job if Codecov does not
+succesfully run. If you do not want to do this, use the
+`fail_job_on_error` parameter:
+
+```yml
+steps:
+  - command: make test
+    plugins:
+      - grapl-security/codecov#v0.1.0:
+          fail_job_on_error: false
+```
+
 ## Configuration
 
 ### `file` (optional, string)
@@ -85,6 +97,14 @@ Defaults to `docker.cloudsmith.io/grapl/releases/codecov`.
 The container image tag the plugin uses.
 
 Defaults to `latest`.
+
+### `fail_job_on_error` (optional, boolean)
+
+Whether or not an error in Codecov will fail the job. This can be
+useful for catching misconfigurations and errors in your Codecov
+setup, at the expense of failing jobs that would otherwise succeed.
+
+Defaults to `true`.
 
 ## Building
 

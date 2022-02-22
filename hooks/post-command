@@ -15,6 +15,14 @@ readonly default_tag="latest"
 readonly image="${BUILDKITE_PLUGIN_CODECOV_IMAGE:-${default_image}}:${BUILDKITE_PLUGIN_CODECOV_TAG:-${default_tag}}"
 readonly file_glob="${BUILDKITE_PLUGIN_CODECOV_FILE:-${default_file}}"
 
+readonly default_fail_job_on_error="true"
+
+codecov_args=(--verbose --file="${file_glob}" --rootDir=/workdir)
+
+if [ "${BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR:-${default_fail_job_on_error}}" = "true" ]; then
+    codecov_args+=(--nonZero)
+fi
+
 echo "--- :codecov: Uploading Coverage Reports"
 docker run \
     --init \
@@ -33,4 +41,4 @@ docker run \
     --env=BUILDKITE_JOB_ID \
     --env=BUILDKITE_PROJECT_SLUG \
     -- \
-    "${image}" --verbose --file="${file_glob}" --rootDir="/workdir"
+    "${image}" "${codecov_args[@]}"

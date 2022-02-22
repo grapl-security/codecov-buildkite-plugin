@@ -26,6 +26,7 @@ teardown() {
     unset BUILDKITE_PLUGIN_CODECOV_FILE
     unset BUILDKITE_PLUGIN_CODECOV_IMAGE
     unset BUILDKITE_PLUGIN_CODECOV_IMAGE_TAG
+    unset BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR
 }
 
 @test "does not call codecov if job failed" {
@@ -100,4 +101,30 @@ teardown() {
   assert_output --partial "overrode everything"
   assert_success
   unstub docker
+}
+
+@test "an error fails the job by default" {
+    unset BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR
+
+    stub docker \
+         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'failed, and exit with 1'; exit 1"
+
+    run $PWD/hooks/post-command
+
+    assert_output --partial "failed, and exit with 1"
+    assert_failure
+    unstub docker
+}
+
+@test "error behavior can be overridden" {
+    export BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR=false
+
+    stub docker \
+         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'failed, but exit with 0'; exit 0"
+
+    run $PWD/hooks/post-command
+
+    assert_output --partial "failed, but exit with 0"
+    assert_success
+    unstub docker
 }
