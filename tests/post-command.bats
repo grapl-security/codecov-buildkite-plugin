@@ -39,7 +39,7 @@ teardown() {
 
 @test "calls codecov with default values" {
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml : echo 'uploading default files'"
+       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'uploading default files'"
 
   run $PWD/hooks/post-command
 
@@ -52,7 +52,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_FILE="foo/bar.xml"
 
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=foo/bar.xml : echo 'overriding default file glob'"
+       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=foo/bar.xml --rootDir=/workdir : echo 'overriding default file glob'"
 
   run $PWD/hooks/post-command
 
@@ -65,7 +65,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_IMAGE=foo/codecov
 
   stub docker \
-     "${docker_run_cmd} foo/codecov:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml : echo 'overrode the default image'"
+     "${docker_run_cmd} foo/codecov:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'overrode the default image'"
 
   run $PWD/hooks/post-command
 
@@ -78,7 +78,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_TAG=v6.6.6
 
   stub docker \
-     "${docker_run_cmd} ${DEFAULT_IMAGE}:v6.6.6 --verbose --file=dist/coverage/**/*.xml : echo 'overrode the default tag'"
+     "${docker_run_cmd} ${DEFAULT_IMAGE}:v6.6.6 --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'overrode the default tag'"
 
   run $PWD/hooks/post-command
 
@@ -93,7 +93,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_TAG=v1.2.3
 
   stub docker \
-     "${docker_run_cmd} testing/codecov:v1.2.3 --verbose --file=blah.xml : echo 'overrode everything'"
+     "${docker_run_cmd} testing/codecov:v1.2.3 --verbose --file=blah.xml --rootDir=/workdir : echo 'overrode everything'"
 
   run $PWD/hooks/post-command
 
