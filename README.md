@@ -64,7 +64,7 @@ This can also be set this globally using the
 
 ## Configuration
 
-### file (optional, string)
+### `file` (optional, string)
 
 A file name or glob for the coverage files to upload to
 https://coverage.io. The value is passed as the `--file` argument to
@@ -72,7 +72,7 @@ the [Codecov Uploader][uploader].
 
 Defaults to `dist/coverage/**/*.xml`.
 
-### image (optional, string)
+### `image` (optional, string)
 
 The container image with the Codecov Uploader binary that the plugin
 uses. Any container used should have the `codecov` binary as its
@@ -80,7 +80,7 @@ entrypoint.
 
 Defaults to `docker.cloudsmith.io/grapl/releases/codecov`.
 
-### tag (optional, string)
+### `tag` (optional, string)
 
 The container image tag the plugin uses.
 
