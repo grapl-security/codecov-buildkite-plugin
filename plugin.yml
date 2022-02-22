@@ -6,12 +6,16 @@ requirements: ["docker"]
 configuration:
   properties:
     file:
-      description: The file(s) to upload; defaults to `dist/coverage/**/*.xml`
+      description: |
+        The file(s) to upload; defaults to `dist/coverage/**/*.xml`.
       type: string
     image:
-      description: The `codecov` image to use; defaults to `docker.cloudsmith.io/grapl/releases/codecov`
+      description: |
+        The `codecov` image to use; defaults to
+        `docker.cloudsmith.io/grapl/releases/codecov`
       type: string
     tag:
-      description: The `codecov` image tag to use; defaults to `latest`
+      description: |
+        The `codecov` image tag to use; defaults to `latest`.
       type: string
   additionalProperties: false
