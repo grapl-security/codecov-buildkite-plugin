@@ -16,7 +16,7 @@ be uploaded to https://coverage.io.
 steps:
   - command: make test
     plugins:
-      - grapl-security/codecov#v0.1.0
+      - grapl-security/codecov#v0.1.3
 ```
 
 To override this glob, add a `file` property:
@@ -25,7 +25,7 @@ To override this glob, add a `file` property:
 steps:
   - command: make test
     plugins:
-      - grapl-security/codecov#v0.1.0:
+      - grapl-security/codecov#v0.1.3:
           file: output/cobertura.xml
 ```
 
@@ -40,7 +40,7 @@ can be overriden.
 steps:
   - command: make test
     plugins:
-      - grapl-security/codecov#v0.1.0:
+      - grapl-security/codecov#v0.1.3:
           image: foobar/codecov
 ```
 
@@ -54,7 +54,7 @@ override this, as well:
 steps:
   - command: make test
     plugins:
-      - grapl-security/codecov#v0.1.0:
+      - grapl-security/codecov#v0.1.3:
           image: foobar/codecov
           tag: v1.2.3
 ```
@@ -70,7 +70,7 @@ succesfully run. If you do not want to do this, use the
 steps:
   - command: make test
     plugins:
-      - grapl-security/codecov#v0.1.0:
+      - grapl-security/codecov#v0.1.3:
           fail_job_on_error: false
 ```
 
