@@ -6,12 +6,25 @@ requirements: ["docker"]
 configuration:
   properties:
     file:
-      description: The file(s) to upload; defaults to `dist/coverage/**/*.xml`
+      description: |
+        The file(s) to upload; defaults to `dist/coverage/**/*.xml`.
       type: string
     image:
-      description: The `codecov` image to use; defaults to `docker.cloudsmith.io/grapl/releases/codecov`
+      description: |
+        The `codecov` image to use; defaults to
+        `docker.cloudsmith.io/grapl/releases/codecov`
       type: string
     tag:
-      description: The `codecov` image tag to use; defaults to `latest`
+      description: |
+        The `codecov` image tag to use; defaults to `latest`.
       type: string
+    fail_job_on_error:
+      description: |
+        Whether or not an error in Codecov will fail the job. This can
+        be useful for catching misconfigurations and errors in your
+        Codecov setup, at the expense of failing jobs that would
+        otherwise succeed.
+
+        Defaults to `true`.
+      type: boolean
   additionalProperties: false
