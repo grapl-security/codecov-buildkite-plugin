@@ -11,13 +11,15 @@ setup() {
 
     export DEFAULT_IMAGE="docker.cloudsmith.io/grapl/releases/codecov"
     export DEFAULT_TAG="latest"
+    docker_user="$(id -u):$(id -g)"
+    readonly docker_user
 
     # This is the default docker run command that we use, up to the
     # point where we specify the specific container to use, and the
     # arguments to it. This much of the command is constant, so we're
     # just defining it up front to make stubbing out `docker` less
     # verbose.
-    export docker_run_cmd="run --init --interactive --tty --rm --label=\"com.buildkite.job-id=${BUILDKITE_JOB_ID}\" --mount=type=bind,source=\"$(pwd)\",destination=/workdir,readonly --workdir=/workdir --env=CODECOV_TOKEN --env=BUILDKITE --env=BUILDKITE_BRANCH --env=BUILDKITE_BUILD_NUMBER --env=BUILDKITE_BUILD_URL --env=BUILDKITE_COMMIT --env=BUILDKITE_JOB_ID --env=BUILDKITE_PROJECT_SLUG --"
+    export docker_run_cmd="run --init --interactive --tty --rm --user=${docker_user} --label=\"com.buildkite.job-id=${BUILDKITE_JOB_ID}\" --mount=type=bind,source=\"$(pwd)\",destination=/workdir,readonly --workdir=/workdir --env=CODECOV_TOKEN --env=BUILDKITE --env=BUILDKITE_BRANCH --env=BUILDKITE_BUILD_NUMBER --env=BUILDKITE_BUILD_URL --env=BUILDKITE_COMMIT --env=BUILDKITE_JOB_ID --env=BUILDKITE_PROJECT_SLUG --"
 }
 
 teardown() {

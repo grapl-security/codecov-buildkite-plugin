@@ -17,6 +17,10 @@ readonly file_glob="${BUILDKITE_PLUGIN_CODECOV_FILE:-${default_file}}"
 
 readonly default_fail_job_on_error="true"
 
+# (--user, --group - but busybox doesn't support the long-form)
+docker_user="$(id -u):$(id -g)"
+readonly docker_user
+
 codecov_args=(--verbose --file="${file_glob}" --rootDir=/workdir)
 
 if [ "${BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR:-${default_fail_job_on_error}}" = "true" ]; then
@@ -29,6 +33,7 @@ docker run \
     --interactive \
     --tty \
     --rm \
+    --user="${docker_user}" \
     --label="com.buildkite.job-id=${BUILDKITE_JOB_ID}" \
     --mount=type=bind,source="$(pwd)",destination=/workdir,readonly \
     --workdir=/workdir \
