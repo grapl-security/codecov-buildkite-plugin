@@ -6,7 +6,7 @@ env:
 steps:
   - label: ":thinking_face: Build Codecov Container?"
     plugins:
-      - grapl-security/grapl-release#v0.1.1
+      - grapl-security/grapl-release#v0.1.2
       - chronotc/monorepo-diff#v2.2.0:
           diff: grapl_diff.sh
           log_level: "debug"
@@ -25,4 +25,4 @@ steps:
     command:
       - record_successful_pipeline_run.sh
     plugins:
-      - grapl-security/grapl-release#v0.1.1
+      - grapl-security/grapl-release#v0.1.2
