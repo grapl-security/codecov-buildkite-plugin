@@ -1,5 +1,7 @@
 # Codecov Buildkite Plugin
 
+TESTING
+
 Uploads test coverage files to https://coverage.io using the [Codecov
 Uploader][uploader].
 
