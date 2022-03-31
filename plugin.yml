@@ -9,6 +9,11 @@ configuration:
       description: |
         The file(s) to upload; defaults to `dist/coverage/**/*.xml`.
       type: string
+    flags:
+      description: |
+        Flag the uploaded report in order to group it based on
+        type of tests or sub-projects/teams
+      type: string
     image:
       description: |
         The `codecov` image to use; defaults to
