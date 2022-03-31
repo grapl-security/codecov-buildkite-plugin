@@ -84,6 +84,12 @@ the [Codecov Uploader][uploader].
 
 Defaults to `dist/coverage/**/*.xml`.
 
+### `flags` (optional, string)
+
+Flag the upload to group coverage metrics.
+The value is passed as the `--flags` [argument](https://docs.codecov.com/docs/flags) to
+the [Codecov Uploader][uploader].
+
 ### `image` (optional, string)
 
 The container image with the Codecov Uploader binary that the plugin
