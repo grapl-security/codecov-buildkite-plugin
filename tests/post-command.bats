@@ -26,6 +26,7 @@ teardown() {
     unset BUILDKITE_COMMAND_EXIT_STATUS
 
     unset BUILDKITE_PLUGIN_CODECOV_FILE
+    unset BUILDKITE_PLUGIN_CODECOV_FLAGS
     unset BUILDKITE_PLUGIN_CODECOV_IMAGE
     unset BUILDKITE_PLUGIN_CODECOV_IMAGE_TAG
     unset BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR
@@ -60,6 +61,19 @@ teardown() {
   run $PWD/hooks/post-command
 
   assert_output --partial "overriding default file glob"
+  assert_success
+  unstub docker
+}
+
+@test "can set flags" {
+  export BUILDKITE_PLUGIN_CODECOV_FLAGS="test-flags"
+
+  stub docker \
+       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero --flags=test-flags : echo 'setting flags'"
+
+  run $PWD/hooks/post-command
+
+  assert_output --partial "setting flags"
   assert_success
   unstub docker
 }

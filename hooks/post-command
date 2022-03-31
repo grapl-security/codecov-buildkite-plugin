@@ -27,6 +27,10 @@ if [ "${BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR:-${default_fail_job_on_error}
     codecov_args+=(--nonZero)
 fi
 
+if [[ -v BUILDKITE_PLUGIN_CODECOV_FLAGS ]]; then
+    codecov_args+=(--flags="${BUILDKITE_PLUGIN_CODECOV_FLAGS}")
+fi
+
 echo "--- :codecov: Uploading Coverage Reports"
 docker run \
     --init \
