@@ -1,13 +1,17 @@
 # Codecov Buildkite Plugin
 
 Uploads test coverage files to https://coverage.io using the [Codecov
-Uploader][uploader].
+Uploader][uploader]. Because it uses a container image, you do not
+need to have the `codecov` binary installed on your build agents to
+use this plugin.
 
-At the moment, this plugin is chiefly concerned with Grapl's needs,
-and may not be sufficiently generalized or flexible enough for all
-uses.
+At the moment, this plugin is chiefly concerned with
+[Grapl](https://graplsecurity.com)'s needs, and may not be
+sufficiently generalized or flexible enough for all uses. External
+contributions are always welcome, however; see [Building and
+Contributing](#building-and-contributing) below.
 
-## Example
+## Examples
 
 By default, all files matching the glob `dist/coverage/**/*xml` will
 be uploaded to https://coverage.io.
@@ -75,6 +79,15 @@ steps:
 ```
 
 ## Configuration
+All configuration values are listed in alphabetical order for ease of use.
+
+### `fail_job_on_error` (optional, boolean)
+
+Whether or not an error in Codecov will fail the job. This can be
+useful for catching misconfigurations and errors in your Codecov
+setup, at the expense of failing jobs that would otherwise succeed.
+
+Defaults to `true`.
 
 ### `file` (optional, string)
 
@@ -104,19 +117,28 @@ The container image tag the plugin uses.
 
 Defaults to `latest`.
 
-### `fail_job_on_error` (optional, boolean)
-
-Whether or not an error in Codecov will fail the job. This can be
-useful for catching misconfigurations and errors in your Codecov
-setup, at the expense of failing jobs that would otherwise succeed.
-
-Defaults to `true`.
-
-## Building
+## Building and Contributing
 
 Requires `make`, `docker`, the Docker `buildx` plugin, and `docker-compose`.
 
 `make all` will run all formatting, linting, testing, and image building.
+
+Run `make help` to see all available targets, with brief descriptions.
+
+### Useful Background Information for Contributors
+
+- [Buildkite Plugin Docs](https://buildkite.com/docs/plugins):
+  Provides a general overview of what Buildkite plugins are and how they are used.
+- [Writing Buildkite Plugins](https://buildkite.com/docs/plugins/writing):
+  Provides more in-depth information on how to actually create a plugin.
+- [Buildkite Plugin Linter](https://github.com/buildkite-plugins/buildkite-plugin-linter):
+  Repository for the tool used to ensure Buildkite plugins conform to various conventions.
+- [Buildkite Plugin Tester](https://github.com/buildkite-plugins/buildkite-plugin-tester):
+  The testing framework used to exercise the plugin. See the [tests](./tests) directory.
+- [Docker Buildx Bake](https://docs.docker.com/engine/reference/commandline/buildx_bake/):
+  The tool we use to build our Codecov container image. See [docker-bake.hcl](./docker-bake.hcl) for configuration.
+- [Pants](https://pantsbuild.org):
+  The build system we use in this repository. See [pants.toml](./pants.toml) for configuration.
 
 ## Codecov GPG Key
 

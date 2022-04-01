@@ -5,6 +5,15 @@ author: https://github.com/grapl-security
 requirements: ["docker"]
 configuration:
   properties:
+    fail_job_on_error:
+      description: |
+        Whether or not an error in Codecov will fail the job. This can
+        be useful for catching misconfigurations and errors in your
+        Codecov setup, at the expense of failing jobs that would
+        otherwise succeed.
+
+        Defaults to `true`.
+      type: boolean
     file:
       description: |
         The file(s) to upload; defaults to `dist/coverage/**/*.xml`.
@@ -23,13 +32,4 @@ configuration:
       description: |
         The `codecov` image tag to use; defaults to `latest`.
       type: string
-    fail_job_on_error:
-      description: |
-        Whether or not an error in Codecov will fail the job. This can
-        be useful for catching misconfigurations and errors in your
-        Codecov setup, at the expense of failing jobs that would
-        otherwise succeed.
-
-        Defaults to `true`.
-      type: boolean
   additionalProperties: false
