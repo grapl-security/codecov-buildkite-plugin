@@ -43,11 +43,11 @@ teardown() {
 
 @test "calls codecov with default values" {
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'uploading default files'"
+       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'STUB - uploading default files'"
 
   run $PWD/hooks/post-command
 
-  assert_output --partial "uploading default files"
+  assert_output --partial "STUB - uploading default files"
   assert_success
   unstub docker
 }
@@ -56,11 +56,11 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_FILE="foo/bar.xml"
 
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=foo/bar.xml --rootDir=/workdir --nonZero : echo 'overriding default file glob'"
+       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=foo/bar.xml --rootDir=/workdir --nonZero : echo 'STUB - overriding default file glob'"
 
   run $PWD/hooks/post-command
 
-  assert_output --partial "overriding default file glob"
+  assert_output --partial "STUB - overriding default file glob"
   assert_success
   unstub docker
 }
@@ -69,11 +69,11 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_FLAGS="test-flags"
 
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero --flags=test-flags : echo 'setting flags'"
+       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero --flags=test-flags : echo 'STUB - setting flags'"
 
   run $PWD/hooks/post-command
 
-  assert_output --partial "setting flags"
+  assert_output --partial "STUB - setting flags"
   assert_success
   unstub docker
 }
@@ -82,11 +82,11 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_IMAGE=foo/codecov
 
   stub docker \
-     "${docker_run_cmd} foo/codecov:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'overrode the default image'"
+     "${docker_run_cmd} foo/codecov:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'STUB - overrode the default image'"
 
   run $PWD/hooks/post-command
 
-  assert_output --partial "overrode the default image"
+  assert_output --partial "STUB - overrode the default image"
   assert_success
   unstub docker
 }
@@ -95,11 +95,11 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_TAG=v6.6.6
 
   stub docker \
-     "${docker_run_cmd} ${DEFAULT_IMAGE}:v6.6.6 --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'overrode the default tag'"
+     "${docker_run_cmd} ${DEFAULT_IMAGE}:v6.6.6 --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'STUB - overrode the default tag'"
 
   run $PWD/hooks/post-command
 
-  assert_output --partial "overrode the default tag"
+  assert_output --partial "STUB - overrode the default tag"
   assert_success
   unstub docker
 }
@@ -110,11 +110,11 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_TAG=v1.2.3
 
   stub docker \
-     "${docker_run_cmd} testing/codecov:v1.2.3 --verbose --file=blah.xml --rootDir=/workdir --nonZero : echo 'overrode everything'"
+     "${docker_run_cmd} testing/codecov:v1.2.3 --verbose --file=blah.xml --rootDir=/workdir --nonZero : echo 'STUB - overrode everything'"
 
   run $PWD/hooks/post-command
 
-  assert_output --partial "overrode everything"
+  assert_output --partial "STUB - overrode everything"
   assert_success
   unstub docker
 }
@@ -123,11 +123,11 @@ teardown() {
     unset BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR
 
     stub docker \
-         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'failed, and exit with 1'; exit 1"
+         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir --nonZero : echo 'STUB - failed, and exit with 1'; exit 1"
 
     run $PWD/hooks/post-command
 
-    assert_output --partial "failed, and exit with 1"
+    assert_output --partial "STUB - failed, and exit with 1"
     assert_failure
     unstub docker
 }
@@ -136,11 +136,11 @@ teardown() {
     export BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR=false
 
     stub docker \
-         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'failed, but exit with 0'; exit 0"
+         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'STUB - failed, but exit with 0'; exit 0"
 
     run $PWD/hooks/post-command
 
-    assert_output --partial "failed, but exit with 0"
+    assert_output --partial "STUB - failed, but exit with 0"
     assert_success
     unstub docker
 }
