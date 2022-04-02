@@ -37,6 +37,12 @@ readonly default_image="docker.cloudsmith.io/grapl/releases/codecov"
 readonly default_tag="latest"
 readonly image="${BUILDKITE_PLUGIN_CODECOV_IMAGE:-${default_image}}:${BUILDKITE_PLUGIN_CODECOV_TAG:-${default_tag}}"
 
+readonly default_always_pull="false"
+if [[ "${BUILDKITE_PLUGIN_CODECOV_ALWAYS_PULL:-${default_always_pull}}" =~ ^(true|on|1)$ ]]; then
+    echo "--- :docker: Explicitly pulling '${image}' image"
+    docker pull "${image}"
+fi
+
 ########################################################################
 
 # We'll mount the current directory at this path in the container

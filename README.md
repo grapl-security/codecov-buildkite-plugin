@@ -66,6 +66,26 @@ steps:
 This can also be set this globally using the
 `BUILDKITE_PLUGIN_CODECOV_TAG` environment variable.
 
+If using the `latest` tag of the image, it can be useful to explicitly
+pull the image before running. Since the `latest` tag will change over
+time, this ensures that you always get the _actual_ latest
+image. While this is generally not a problem if you are using
+short-lived or single-use agents, longer-lived agents would continue
+to use whatever image was tagged `latest` when they ran their first
+`codecov` upload.
+
+To explicitly pull the image, set `always_pull` to `true`.
+
+```yml
+steps:
+  - command: make test
+    plugins:
+      - grapl-security/codecov#v0.1.5:
+          image: foobar/codecov
+          tag: latest
+          always_pull: true
+```
+
 By default, this plugin will fail a job if Codecov does not
 succesfully run. If you do not want to do this, use the
 `fail_job_on_error` parameter:
@@ -122,6 +142,14 @@ Defaults to `docker.cloudsmith.io/grapl/releases/codecov`.
 The container image tag the plugin uses.
 
 Defaults to `latest`.
+
+#### `always_pull` (optional, boolean)
+
+Whether or not to perform an explicit `docker pull` of the configured
+image before running. Useful when using the `latest` tag to ensure you
+are always using the _actual_ latest image.
+
+Defaults to `false`.
 
 ## Building and Contributing
 

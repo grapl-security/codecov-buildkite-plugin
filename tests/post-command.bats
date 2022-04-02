@@ -25,6 +25,7 @@ setup() {
 teardown() {
     unset BUILDKITE_COMMAND_EXIT_STATUS
 
+    unset BUILDKITE_PLUGIN_CODECOV_ALWAYS_PULL
     unset BUILDKITE_PLUGIN_CODECOV_FILE
     unset BUILDKITE_PLUGIN_CODECOV_FLAGS
     unset BUILDKITE_PLUGIN_CODECOV_IMAGE
@@ -141,6 +142,21 @@ teardown() {
     run $PWD/hooks/post-command
 
     assert_output --partial "STUB - failed, but exit with 0"
+    assert_success
+    unstub docker
+}
+
+@test "pull image" {
+    export BUILDKITE_PLUGIN_CODECOV_ALWAYS_PULL=true
+
+    stub docker \
+         "pull ${DEFAULT_IMAGE}:${DEFAULT_TAG} : echo 'STUB - pulling image'" \
+         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - running codecov'"
+
+    run $PWD/hooks/post-command
+
+    assert_output --partial "STUB - pulling image"
+    assert_output --partial "STUB - running codecov"
     assert_success
     unstub docker
 }

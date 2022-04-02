@@ -5,6 +5,13 @@ author: https://github.com/grapl-security
 requirements: ["docker"]
 configuration:
   properties:
+    always_pull:
+      description: |
+        Always pull the configured codecov container image. Useful if
+        using the `latest` tag.
+
+        Defaults to `false`.
+      type: boolean
     fail_job_on_error:
       description: |
         Whether or not an error in Codecov will fail the job. This can
