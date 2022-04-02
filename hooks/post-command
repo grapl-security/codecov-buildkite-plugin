@@ -2,34 +2,50 @@
 
 set -euo pipefail
 
-if [ "${BUILDKITE_COMMAND_EXIT_STATUS}" -ne 0 ]; then
+if [[ "${BUILDKITE_COMMAND_EXIT_STATUS}" -ne 0 ]]; then
     echo "--- :codecov: Skipping upload because job failed"
     exit 0
 fi
 
+# Accumulate all the arguments to pass to the `codecov` binary; we'll
+# always use `--verbose` to make debugging problems easier.
+codecov_args=(--verbose)
+
+# Resolve file glob
+########################################################################
 # This is Grapl's default coverage location and format
 readonly default_file="dist/coverage/**/*.xml"
+readonly file="${BUILDKITE_PLUGIN_CODECOV_FILE:-${default_file}}"
+codecov_args+=(--file="${file}")
+
+# Resolve flags
+########################################################################
+if [[ -v BUILDKITE_PLUGIN_CODECOV_FLAGS ]]; then
+    codecov_args+=(--flags="${BUILDKITE_PLUGIN_CODECOV_FLAGS}")
+fi
+
+# Resolve fail-on-error behavior
+########################################################################
+readonly default_fail_job_on_error="true"
+if [[ "${BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR:-${default_fail_job_on_error}}" =~ ^(true|on|1)$ ]]; then
+    codecov_args+=(--nonZero)
+fi
+
+# Resolve container image details
+########################################################################
 readonly default_image="docker.cloudsmith.io/grapl/releases/codecov"
 readonly default_tag="latest"
-
 readonly image="${BUILDKITE_PLUGIN_CODECOV_IMAGE:-${default_image}}:${BUILDKITE_PLUGIN_CODECOV_TAG:-${default_tag}}"
-readonly file_glob="${BUILDKITE_PLUGIN_CODECOV_FILE:-${default_file}}"
 
-readonly default_fail_job_on_error="true"
+########################################################################
+
+# We'll mount the current directory at this path in the container
+readonly workdir="/workdir"
+codecov_args+=(--rootDir="${workdir}")
 
 # (--user, --group - but busybox doesn't support the long-form)
 docker_user="$(id -u):$(id -g)"
 readonly docker_user
-
-codecov_args=(--verbose --file="${file_glob}" --rootDir=/workdir)
-
-if [ "${BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR:-${default_fail_job_on_error}}" = "true" ]; then
-    codecov_args+=(--nonZero)
-fi
-
-if [[ -v BUILDKITE_PLUGIN_CODECOV_FLAGS ]]; then
-    codecov_args+=(--flags="${BUILDKITE_PLUGIN_CODECOV_FLAGS}")
-fi
 
 echo "--- :codecov: Uploading Coverage Reports"
 docker run \
@@ -39,8 +55,8 @@ docker run \
     --rm \
     --user="${docker_user}" \
     --label="com.buildkite.job-id=${BUILDKITE_JOB_ID}" \
-    --mount=type=bind,source="$(pwd)",destination=/workdir,readonly \
-    --workdir=/workdir \
+    --mount=type=bind,source="$(pwd)",destination="${workdir}",readonly \
+    --workdir="${workdir}" \
     --env=CODECOV_TOKEN \
     --env=BUILDKITE \
     --env=BUILDKITE_BRANCH \
