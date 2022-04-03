@@ -1,5 +1,7 @@
 # Codecov Buildkite Plugin
 
+[![Build status](https://badge.buildkite.com/b6999075a6364a35590e22011598486fa20e6680063aa75337.svg)](https://buildkite.com/grapl/codecov-buildkite-plugin-verify?branch=main)
+
 Uploads test coverage files to https://coverage.io using the [Codecov
 Uploader][uploader]. Because it uses a container image, you do not
 need to have the `codecov` binary installed on your build agents to
