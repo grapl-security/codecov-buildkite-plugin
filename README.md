@@ -66,6 +66,26 @@ steps:
 This can also be set this globally using the
 `BUILDKITE_PLUGIN_CODECOV_TAG` environment variable.
 
+If using the `latest` tag of the image, it can be useful to explicitly
+pull the image before running. Since the `latest` tag will change over
+time, this ensures that you always get the _actual_ latest
+image. While this is generally not a problem if you are using
+short-lived or single-use agents, longer-lived agents would continue
+to use whatever image was tagged `latest` when they ran their first
+`codecov` upload.
+
+To explicitly pull the image, set `always_pull` to `true`.
+
+```yml
+steps:
+  - command: make test
+    plugins:
+      - grapl-security/codecov#v0.1.5:
+          image: foobar/codecov
+          tag: latest
+          always_pull: true
+```
+
 By default, this plugin will fail a job if Codecov does not
 succesfully run. If you do not want to do this, use the
 `fail_job_on_error` parameter:
@@ -79,17 +99,11 @@ steps:
 ```
 
 ## Configuration
-All configuration values are listed in alphabetical order for ease of use.
+Configuration flags are organized by thematic category.
 
-### `fail_job_on_error` (optional, boolean)
+### `codecov` Uploader Flags
 
-Whether or not an error in Codecov will fail the job. This can be
-useful for catching misconfigurations and errors in your Codecov
-setup, at the expense of failing jobs that would otherwise succeed.
-
-Defaults to `true`.
-
-### `file` (optional, string)
+#### `file` (optional, string)
 
 A file name or glob for the coverage files to upload to
 https://coverage.io. The value is passed as the `--file` argument to
@@ -97,13 +111,25 @@ the [Codecov Uploader][uploader].
 
 Defaults to `dist/coverage/**/*.xml`.
 
-### `flags` (optional, string)
+#### `flags` (optional, string)
 
-Flag the upload to group coverage metrics.
-The value is passed as the `--flags` [argument](https://docs.codecov.com/docs/flags) to
-the [Codecov Uploader][uploader].
+Flag the upload to group coverage metrics. The value is passed as the
+`--flags` [argument](https://docs.codecov.com/docs/flags) to the
+[Codecov Uploader][uploader].
 
-### `image` (optional, string)
+### Error Handling
+
+#### `fail_job_on_error` (optional, boolean)
+
+Whether or not an error in Codecov will fail the job. This can be
+useful for catching misconfigurations and errors in your Codecov
+setup, at the expense of failing jobs that would otherwise succeed.
+
+Defaults to `true`.
+
+### Container Image Configuration
+
+#### `image` (optional, string)
 
 The container image with the Codecov Uploader binary that the plugin
 uses. Any container used should have the `codecov` binary as its
@@ -111,11 +137,19 @@ entrypoint.
 
 Defaults to `docker.cloudsmith.io/grapl/releases/codecov`.
 
-### `tag` (optional, string)
+#### `tag` (optional, string)
 
 The container image tag the plugin uses.
 
 Defaults to `latest`.
+
+#### `always_pull` (optional, boolean)
+
+Whether or not to perform an explicit `docker pull` of the configured
+image before running. Useful when using the `latest` tag to ensure you
+are always using the _actual_ latest image.
+
+Defaults to `false`.
 
 ## Building and Contributing
 
