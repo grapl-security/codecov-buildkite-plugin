@@ -125,6 +125,10 @@ Requires `make`, `docker`, the Docker `buildx` plugin, and `docker-compose`.
 
 Run `make help` to see all available targets, with brief descriptions.
 
+Alternatively, you may also use [Gitpod](https://gitpod.io).
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/grapl-security/codecov-buildkite-plugin)
+
 ### Useful Background Information for Contributors
 
 - [Buildkite Plugin Docs](https://buildkite.com/docs/plugins):
