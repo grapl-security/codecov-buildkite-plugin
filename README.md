@@ -155,7 +155,7 @@ Defaults to `false`.
 
 ## Building and Contributing
 
-Requires `make`, `docker`, the Docker `buildx` plugin, and `docker-compose`.
+Requires `make`, `docker`, the Docker `buildx` plugin, and Docker Compose v2.
 
 `make all` will run all formatting, linting, testing, and image building.
 
