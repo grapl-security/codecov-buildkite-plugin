@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_CHECK := docker-compose run --rm
+DOCKER_COMPOSE_CHECK := docker compose run --rm
 NONROOT_DOCKER_COMPOSE_CHECK := $(DOCKER_COMPOSE_CHECK) --user=$(shell id --user):$(shell id --group)
 PANTS_SHELL_FILTER := ./pants filter --target-type=shell_sources,shunit2_tests :: | xargs ./pants
 
