@@ -22,14 +22,18 @@ target "codecov" {
   context    = "."
   dockerfile = "Dockerfile"
   target     = "release"
-
+  args = {
+    CODECOV_VERSION = "${CODECOV_VERSION}"
+  }
+  labels = {
+    "org.opencontainers.image.authors" = "https://graplsecurity.com"
+    "org.opencontainers.image.source"  = "https://github.com/grapl-security/codecov-buildkite-plugin",
+    "org.opencontainers.image.vendor"  = "Grapl, Inc."
+  }
   tags = [
     # We always push everything to our "raw" repository first;
     # promotion happens elsewhere.
     "docker.cloudsmith.io/grapl/raw/codecov:latest",
     "docker.cloudsmith.io/grapl/raw/codecov:${CODECOV_VERSION}"
   ]
-  args = {
-    CODECOV_VERSION = "${CODECOV_VERSION}"
-  }
 }
