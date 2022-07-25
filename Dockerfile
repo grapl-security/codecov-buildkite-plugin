@@ -1,4 +1,4 @@
-FROM ubuntu:21.04 AS base
+FROM ubuntu:22.04 AS base
 
 # The version of the Codecov Uploader to download from
 # https://uploader.codecov.io
@@ -6,8 +6,8 @@ ARG CODECOV_VERSION
 
 RUN apt-get update && \
     apt-get install --yes \
-    curl=7.74.0-1ubuntu2.3 \
-    gpg=2.2.20-1ubuntu3
+    curl=7.81.0-1ubuntu1.3 \
+    gpg=2.2.27-3ubuntu2.1
 
 WORKDIR /workdir
 
