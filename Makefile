@@ -1,6 +1,6 @@
 DOCKER_COMPOSE_CHECK := docker compose run --rm
 NONROOT_DOCKER_COMPOSE_CHECK := $(DOCKER_COMPOSE_CHECK) --user=$(shell id --user):$(shell id --group)
-PANTS_SHELL_FILTER := ./pants filter --target-type=shell_sources,shunit2_tests :: | xargs ./pants
+PANTS_SHELL_FILTER := ./pants --filter-target-type=shell_source,shunit2_test
 
 .PHONY: all
 all: format
@@ -29,7 +29,7 @@ lint: ## Perform lint checks on all files
 
 .PHONY: lint-docker
 lint-docker:  ## Lint Dockerfiles
-	./pants filter --target-type=docker_image :: | xargs ./pants lint
+	./pants --filter-target-type=docker_image lint ::
 
 .PHONY: lint-hcl
 lint-hcl: ## Lint HCL files
@@ -41,7 +41,7 @@ lint-plugin: ## Lint the Buildkite plugin metadata
 
 .PHONY: lint-shell
 lint-shell: ## Lint the shell scripts
-	$(PANTS_SHELL_FILTER) lint
+	$(PANTS_SHELL_FILTER) lint ::
 
 ##@ Formatting
 ########################################################################
@@ -57,7 +57,7 @@ format-hcl: ## Format HCL files
 
 .PHONY: format-shell
 format-shell: ## Format shell scripts
-	$(PANTS_SHELL_FILTER) fmt
+	$(PANTS_SHELL_FILTER) fmt ::
 
 ##@ Testing
 ########################################################################

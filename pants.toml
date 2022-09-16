@@ -8,6 +8,8 @@ backend_packages = [
     "pants.backend.shell.lint.shfmt"
 ]
 
+use_deprecated_directory_cli_args_semantics = false
+
 pants_ignore = [
     "!.buildkite/"
 ]
