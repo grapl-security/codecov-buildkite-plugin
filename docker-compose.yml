@@ -18,7 +18,7 @@ x-common-variables:
 
 services:
   plugin-tester:
-    image: buildkite/plugin-tester:v2.0.0
+    image: buildkite/plugin-tester:v3.0.1
     volumes:
       - *read-only-plugin
 
