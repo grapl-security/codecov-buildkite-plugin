@@ -9,7 +9,7 @@ setup() {
     export BUILDKITE_JOB_ID="1-2-3-4"
     export BUILDKITE_COMMAND_EXIT_STATUS=0
 
-    export DEFAULT_IMAGE="docker.cloudsmith.io/grapl/releases/codecov"
+    export BUILDKITE_PLUGIN_CODECOV_IMAGE="docker.mycompany.com/codecov"
     export DEFAULT_TAG="latest"
     docker_user="$(id -u):$(id -g)"
     readonly docker_user
@@ -44,7 +44,7 @@ teardown() {
 
 @test "calls codecov with default values" {
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - uploading default files'"
+       "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - uploading default files'"
 
   run $PWD/hooks/post-command
 
@@ -57,7 +57,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_FILE="foo/bar.xml"
 
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=foo/bar.xml --nonZero --rootDir=/workdir : echo 'STUB - overriding default file glob'"
+       "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} --verbose --file=foo/bar.xml --nonZero --rootDir=/workdir : echo 'STUB - overriding default file glob'"
 
   run $PWD/hooks/post-command
 
@@ -70,7 +70,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_FLAGS="test-flags"
 
   stub docker \
-       "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --flags=test-flags --nonZero --rootDir=/workdir : echo 'STUB - setting flags'"
+       "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --flags=test-flags --nonZero --rootDir=/workdir : echo 'STUB - setting flags'"
 
   run $PWD/hooks/post-command
 
@@ -96,7 +96,7 @@ teardown() {
   export BUILDKITE_PLUGIN_CODECOV_TAG=v6.6.6
 
   stub docker \
-     "${docker_run_cmd} ${DEFAULT_IMAGE}:v6.6.6 --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - overrode the default tag'"
+     "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:v6.6.6 --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - overrode the default tag'"
 
   run $PWD/hooks/post-command
 
@@ -124,7 +124,7 @@ teardown() {
     unset BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR
 
     stub docker \
-         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - failed, and exit with 1'; exit 1"
+         "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - failed, and exit with 1'; exit 1"
 
     run $PWD/hooks/post-command
 
@@ -137,7 +137,7 @@ teardown() {
     export BUILDKITE_PLUGIN_CODECOV_FAIL_JOB_ON_ERROR=false
 
     stub docker \
-         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'STUB - failed, but exit with 0'; exit 0"
+         "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --rootDir=/workdir : echo 'STUB - failed, but exit with 0'; exit 0"
 
     run $PWD/hooks/post-command
 
@@ -150,8 +150,8 @@ teardown() {
     export BUILDKITE_PLUGIN_CODECOV_ALWAYS_PULL=true
 
     stub docker \
-         "pull ${DEFAULT_IMAGE}:${DEFAULT_TAG} : echo 'STUB - pulling image'" \
-         "${docker_run_cmd} ${DEFAULT_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - running codecov'"
+         "pull ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} : echo 'STUB - pulling image'" \
+         "${docker_run_cmd} ${BUILDKITE_PLUGIN_CODECOV_IMAGE}:${DEFAULT_TAG} --verbose --file=dist/coverage/**/*.xml --nonZero --rootDir=/workdir : echo 'STUB - running codecov'"
 
     run $PWD/hooks/post-command
 
