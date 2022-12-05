@@ -1,17 +1,20 @@
 # Codecov Buildkite Plugin
 
-[![Build status](https://badge.buildkite.com/b6999075a6364a35590e22011598486fa20e6680063aa75337.svg)](https://buildkite.com/grapl/codecov-buildkite-plugin-verify?branch=main)
+:warning: **Sunsetting This Repository** :warning:
+
+Work has stopped on this plugin. The repository will still be
+available in an archived state, but users are encouraged to either
+fork a copy or find alternatives. The `codecov` container image we
+provided will no longer be available, but you can use an alternative
+or build your own from this repository (the `ENTRYPOINT` _must_ be
+`codecov`). If you continue using the code from this repository, you
+will need to specify an `image` in your plugin configuration (see
+below).
 
 Uploads test coverage files to https://coverage.io using the [Codecov
 Uploader][uploader]. Because it uses a container image, you do not
 need to have the `codecov` binary installed on your build agents to
 use this plugin.
-
-At the moment, this plugin is chiefly concerned with
-[Grapl](https://graplsecurity.com)'s needs, and may not be
-sufficiently generalized or flexible enough for all uses. External
-contributions are always welcome, however; see [Building and
-Contributing](#building-and-contributing) below.
 
 ## Examples
 
@@ -22,7 +25,8 @@ be uploaded to https://coverage.io.
 steps:
   - command: make test
     plugins:
-      - grapl-security/codecov#v0.1.5
+      - grapl-security/codecov#v0.1.5:
+          image: docker.mycompany.com/codecov
 ```
 
 To override this glob, add a `file` property:
@@ -32,15 +36,15 @@ steps:
   - command: make test
     plugins:
       - grapl-security/codecov#v0.1.5:
+          image: docker.mycompany.com/codecov
           file: output/cobertura.xml
 ```
 
 This can also be set this globally using the
 `BUILDKITE_PLUGIN_CODECOV_FILE` environment variable.
 
-The plugin runs the `codecov` uploader using a Docker container. The
-default image is `docker.cloudsmith.io/grapl/releases/codecov`, but this
-can be overriden.
+The plugin runs the `codecov` uploader using a Docker container, which
+must be set with the `image` configuration value.
 
 ```yml
 steps:
@@ -97,6 +101,7 @@ steps:
   - command: make test
     plugins:
       - grapl-security/codecov#v0.1.5:
+          image: docker.mycompany.com/codecov
           fail_job_on_error: false
 ```
 
@@ -131,13 +136,11 @@ Defaults to `true`.
 
 ### Container Image Configuration
 
-#### `image` (optional, string)
+#### `image` (requried, string)
 
 The container image with the Codecov Uploader binary that the plugin
 uses. Any container used should have the `codecov` binary as its
 entrypoint.
-
-Defaults to `docker.cloudsmith.io/grapl/releases/codecov`.
 
 #### `tag` (optional, string)
 
